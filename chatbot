@@ -1,0 +1,89 @@
+import random
+from textblob import TextBlob
+
+def greet_user():
+    print("Hello, what should I call you?")
+    name = input()
+    print("Hello " + name + "!")
+    print('Do you have any nickname growing up? [y/n]')
+    ans = input()
+    if 'y' in ans.lower():
+        print("What's your nickname?")
+        nickname = input()
+        print('Nice to meet you, ' + nickname + '!')
+    else:
+        nickname = random.choice(['buddy', 'g', 'pretty soul', 'xoxo', 'gorgeous', 'bful', 'handsome', 'smarty', 'hero',
+                                  'ben', 'gwen', 'don', 'hritik roshan', 'babe', 'silly human', 'happy human', 'dude'])
+        print('I will call you ' + nickname + '!')
+
+    greetings = [
+        'How are you, ' + nickname + '?',
+        'Ssup, ' + nickname + "! How's the weather today?",
+        "How's life treating you lately, " + nickname + '?',
+        'Immense love, ' + nickname + '! you good?',
+        'How are things going, ' + nickname + '?'
+    ]
+    print(random.choice(greetings))
+    greet = input().lower()  # Converting input to lowercase 
+    if 'good' in greet or 'yes' in greet:
+        print("It's so good to hear!")
+    return nickname
+
+
+def analyze_sentiment(ans):
+    blob = TextBlob(ans)
+    if blob.polarity > 0:
+        print('Glad you are doing well!')
+    else:
+        print('Sorry to hear that!')
+
+
+def analyze_opinions():
+    topics = ['seasons', 'coding', 'football', 'Python', 'Computer', 'pubg', 'COD', 'friends', 'music', 'movies', 'books', 'food']
+    questions = ['What is your take on ', 'What do you think of ', 'How do you feel about ',   'I would like your opinion on ' ,'What do you reckon about ']
+
+    for i in range(0, random.randint(3, 4)):
+        question = random.choice(questions)
+        questions.remove(question)
+        topic = random.choice(topics)
+        topics.remove(topic)
+        print(question + topic + '?')
+        ans = input()
+        analyze_sentiment(ans)
+
+        blob = TextBlob(ans)
+        if blob.polarity > 0.5:
+            print("OMG, you really love " + topic)
+        elif blob.polarity > 0.1:
+            print("Well, you're clearly into " + topic)
+        elif blob.polarity < -0.5:
+            print("Uff, you totally hate " + topic)
+        elif blob.polarity < -0.1:
+            print("So you don't really love " + topic)
+        else:
+            print('That is a very neutral view on ' + topic)
+
+        if blob.subjectivity > 0.6:
+            print('and you are so biased!')
+        elif blob.subjectivity > 0.3:
+            print('and you are alot biased!')
+        else:
+            print('and you are quite fair, huh!')
+
+
+def say_goodbye(nickname):
+    goodbyes = [
+        'It was really nice talking to you, ' + nickname + ". I gotta go now!",
+        "OK, I'm bored. I'm going to do my laundries now.",
+        "Bbye, I'm out!",
+        "catch up soon," + nickname
+    ]
+    print(random.choice(goodbyes))
+
+def main():
+    nickname = greet_user()
+    analyze_opinions()
+    say_goodbye(nickname)
+
+if __name__ == "__main__":
+    main()
